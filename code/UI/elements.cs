@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using System.Collections.Generic;
 using System;
 
 namespace TagGame
@@ -52,7 +53,7 @@ namespace TagGame
 			float stamina = controller.Stamina;
 			float a = 250 * stamina;
 
-			stam.Style.BackgroundColor = new Color( 0, 104, 250 );
+			stam.Style.BackgroundColor = new Color( 0, 0, 0, (float)0.25 );
 			stam.Style.Top = 1;
 			stam.Style.Height = 45;
 			stam.Style.BorderBottomLeftRadius = 10;
@@ -66,41 +67,22 @@ namespace TagGame
 
 	public partial class Person : Panel
 	{
-		private AnimSceneObject modelObject;
-		readonly ScenePanel scene;
-
-		Angles CamAngles = new( 25.0f, 180.0f, 0.0f );
-		float CamDistance = 50;
-		Vector3 CamPos => Vector3.Up * 60 + CamAngles.Direction * -35;
+		public Image Avatar;
 
 		public Person()
 		{
-			Style.FlexWrap = Wrap.Wrap;
-			Style.JustifyContent = Justify.Center;
-			Style.AlignItems = Align.Center;
-			Style.AlignContent = Align.Center;
+			var player = Local.SteamId;
+			Log.Info( player );
 
-			using ( SceneWorld.SetCurrent( new SceneWorld() ) )
-			{
-				// SceneObject.CreateModel( "models/citizen/citizen.vmdl", Transform.Zero );
-				var model = Model.Load( "models/citizen/citizen.vmdl" );
-				modelObject = new AnimSceneObject( model, Transform.Zero );
-				modelObject.SetAnimInt( "idle_states", 2 );
-				modelObject.Update( Time.Now );
+			Avatar = Add.Image( $"avatar:{player}" );
+		}
 
-				Light.Point( Vector3.Up * 150.0f, 200.0f, Color.Red * 5000.0f );
-				Light.Point( Vector3.Up * 10.0f + Vector3.Forward * 100.0f, 200, Color.White * 15000.0f );
-				Light.Point( Vector3.Up * 10.0f + Vector3.Backward * 100.0f, 200, Color.Magenta * 15000.0f );
-				Light.Point( Vector3.Up * 10.0f + Vector3.Right * 100.0f, 200, Color.Blue * 15000.0f );
-				Light.Point( Vector3.Up * 10.0f + Vector3.Left * 100.0f, 200, Color.Green * 15000.0f );
-
-				scene = Add.ScenePanel( SceneWorld.Current, CamPos, Rotation.From( CamAngles ), 45 );
-				scene.Style.Width = 116;
-				scene.Style.Height = 116;
-			}
+		public override void Tick()
+		{
+			Avatar.SetTexture( $"avatar:{Local.SteamId}" );
+			Avatar.SetClass( "Person", true );
 		}
 	}
-
 	public partial class Name : Panel
 	{
 		public Label Label { get; internal set; }

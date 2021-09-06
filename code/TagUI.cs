@@ -15,6 +15,13 @@ namespace TagGame
 			RootPanel.AddChild<Scoreboard<ScoreboardEntry>>();
 			Panel UI = RootPanel.AddChild<UI>();
 			UI.AddChild<UITeam>();
+			TagPlayer player = Local.Pawn as TagPlayer;
+			Panel StamUI = RootPanel.AddChild<StamUI>();
+			StamUI.AddChild<Stamina>();
+			Panel PersonUI = RootPanel.AddChild<PersonUI>();
+			PersonUI.AddChild<Person>();
+			Panel NameUI = RootPanel.AddChild<NameUI>();
+			NameUI.AddChild<Name>();
 		}
 	}
 }

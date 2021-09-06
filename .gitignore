@@ -1,0 +1,6 @@
+.vs
+_bakerresourcecache
+config
+tools_*.bin
+code/obj
+code/tag-reloaded.csproj

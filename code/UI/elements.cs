@@ -71,16 +71,7 @@ namespace TagGame
 
 		public Person()
 		{
-			var player = Local.SteamId;
-			Log.Info( player );
-
-			Avatar = Add.Image( $"avatar:{player}" );
-		}
-
-		public override void Tick()
-		{
-			Avatar.SetTexture( $"avatar:{Local.SteamId}" );
-			Avatar.SetClass( "Person", true );
+			Avatar = Add.Image( $"avatar:{Local.SteamId}" );
 		}
 	}
 	public partial class Name : Panel

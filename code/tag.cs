@@ -31,6 +31,7 @@ namespace TagGame
 			{
 				player.Team = Tag.Instance?.RunTeam;
 			}
+			SetupNewPVS( player );
 			base.ClientJoined( cl );
 		}
 		public void SetRound( Round round )
@@ -45,6 +46,16 @@ namespace TagGame
 			{
 				await Task.DelaySeconds( 1 );
 				currentRound?.OnTick();
+			}
+		}
+		private void SetupNewPVS(TagPlayer player)
+		{
+			Client me = player.GetClientOwner();
+			if ( player is null || me is null ) return;
+			foreach (Client client in Client.All )
+			{
+				me.Pvs.Add( client?.Pawn );
+				client.Pvs.Add( player );
 			}
 		}
 	}

@@ -53,7 +53,7 @@ namespace TagGame
 			float stamina = controller.Stamina;
 			float a = 250 * stamina;
 
-			stam.Style.BackgroundColor = new Color( 0, 0, 0, (float)0.25 );
+			stam.Style.BackgroundColor = new ColorHsv(stamina * 90, 1, 1, .5f);
 			stam.Style.Top = 1;
 			stam.Style.Height = 45;
 			stam.Style.BorderBottomLeftRadius = 10;

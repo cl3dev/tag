@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using System;
+using System.Threading.Tasks;
 
 namespace TagGame
 {
@@ -10,6 +11,10 @@ namespace TagGame
 		private void OnTeamChanged()
 		{
 			Team?.OnBecome( this );
+		}
+		public TagPlayer()
+		{
+			_ = PointsTick();
 		}
 		public override void Respawn()
 		{
@@ -45,6 +50,14 @@ namespace TagGame
 			base.StartTouch( other );
 			if ( other is not TagPlayer ) return;
 			Tag.Instance.currentRound?.PlayerTouch( this, other as TagPlayer );
+		}
+		private async Task PointsTick()
+		{
+			while ( true )
+			{
+				await GameTask.DelaySeconds( 1 );
+				
+			}
 		}
 	}
 }

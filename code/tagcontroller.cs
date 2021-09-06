@@ -8,10 +8,6 @@ namespace TagGame
 		private float lastSprint = 0f;
 		[Net, Predicted] public float Stamina { get; set; } = 1;
 
-		public TagController()
-		{
-			_ = StamTick();
-		}
 		public override float GetWishSpeed()
 		{
 			//base.GetWishSpeed()
@@ -28,21 +24,13 @@ namespace TagGame
 				return origin;
 			}
 		}
-		private void RegenStam()
+		public override void Simulate()
 		{
-			float now = Time.Now;
-			if ( now > lastSprint + 5 && Stamina < 1 )
-			{
-				Stamina = MathX.Approach(Stamina, 1, 1f / 15f);
-			}
-		}
-		private async Task StamTick()
-		{
+			base.Simulate();
 			if ( !Host.IsServer ) return;
-			while ( true )
+			if (Time.Now > lastSprint + 5 && Stamina < 1 )
 			{
-				await GameTask.DelaySeconds( 1 );
-				RegenStam();
+				Stamina = MathX.Approach( Stamina, 1, (1f / 15f) * Time.Delta );
 			}
 		}
 	}

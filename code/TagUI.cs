@@ -12,6 +12,7 @@ namespace TagGame
 			RootPanel.StyleSheet.Load( "/ui/styles.scss" );
 			RootPanel.AddChild<ChatBox>();
 			RootPanel.AddChild<NameTags>();
+			RootPanel.AddChild<VoiceList>();
 			RootPanel.AddChild<Scoreboard<ScoreboardEntry>>();
 			Panel UI = RootPanel.AddChild<UI>();
 			UI.AddChild<UITeam>();

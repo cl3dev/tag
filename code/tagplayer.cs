@@ -8,6 +8,7 @@ namespace TagGame
 	{
 		public float nextTouch = 0;
 		[Net, OnChangedCallback] public Team Team { get; set; }
+		[Net] public ScoreSys Score { get; set; } = new ScoreSys();
 		private void OnTeamChanged()
 		{
 			Team?.OnBecome( this );
@@ -55,8 +56,9 @@ namespace TagGame
 		{
 			while ( true )
 			{
-				await GameTask.DelaySeconds( 1 );
-				
+				await GameTask.DelaySeconds( 5 );
+				if ( Tag.Instance?.currentRound is not TagRound || Team is not RunnerTeam ) return;
+				Score.Add(1);
 			}
 		}
 	}

@@ -28,7 +28,8 @@ namespace TagGame
 		{
 			base.Simulate();
 			if ( !Host.IsServer ) return;
-			if (Time.Now > lastSprint + 5 && Stamina < 1 )
+			TagPlayer ply = Pawn as TagPlayer;
+			if (Time.Now > lastSprint + 5 && Stamina < 1 && ply.Team is TaggerTeam )
 			{
 				Stamina = MathX.Approach( Stamina, 1, (1f / 15f) * Time.Delta );
 			}

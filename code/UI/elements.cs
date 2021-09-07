@@ -91,4 +91,37 @@ namespace TagGame
 			Label.Text = $"{name}";
 		}
 	}
+
+	public partial class SB : Panel
+	{
+		public Panel Canvas { get; protected set; }
+		public Panel Header { get; protected set; }
+
+		public SB()
+		{
+			AddClass( "scoreboard" );
+
+
+			Header = Add.Panel( "header" );
+			Header.Add.Label( "Name", "name" );
+			Header.Add.Label( "Team", "team" );
+			Header.Add.Label( "Points", "points" );
+
+			Canvas = Add.Panel( "canvas" );
+
+			foreach ( Client client in Client.All )
+			{
+				var p = Canvas.AddChild<SB>();
+
+				
+
+			}
+		}
+		public override void Tick()
+		{
+			base.Tick();
+
+			SetClass( "active", Input.Down( InputButton.Score ) );
+		}
+	}
 }

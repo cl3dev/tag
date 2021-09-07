@@ -34,6 +34,16 @@ namespace TagGame
 			SetupNewPVS( player );
 			base.ClientJoined( cl );
 		}
+		public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
+		{
+			TagPlayer player = cl.Pawn as TagPlayer;
+			if(player.Team is TaggerTeam && Tag.Instance?.TagTeam.players.Count <= 0)
+			{
+				Tag.Instance.SetRound( new WaitRound() );
+			}
+			base.ClientDisconnect( cl, reason );
+
+		}
 		public void SetRound( Round round )
 		{
 			currentRound?.End();

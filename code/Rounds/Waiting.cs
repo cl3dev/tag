@@ -8,22 +8,20 @@ namespace TagGame
 		public override string name => "Waiting for players";
 		public override int length => -1;
 
-		public WaitRound()
+		public override void Start()
 		{
 			if ( !Host.IsServer ) return;
-			Log.Info( "wait round" );
-			foreach (Client client in Client.All )
+			foreach ( Client client in Client.All )
 			{
 				TagPlayer player = (TagPlayer)client.Pawn;
 				Tag.Instance.MoveToSpawnpoint( player );
-				player.Team = null;
+				player.CurrentTeam = null;
 			}
 		}
 		public override void OnTick()
 		{
 			if (Client.All.Count >= 2 )
 			{
-				Log.Info( "moving to tagging" );
 				Tag.Instance.SetRound(new TagRound());
 			}
 		}

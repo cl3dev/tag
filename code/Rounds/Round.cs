@@ -21,5 +21,7 @@ namespace TagGame
 		public virtual void End() { }
 		public virtual void PlayerTouch( TagPlayer player , TagPlayer other ) { }
 		public abstract void OnTick();
+		public virtual void PlayerJoin(TagPlayer player ) { }
+		public virtual void PlayerLeave(TagPlayer player ) { }
 	}
 }

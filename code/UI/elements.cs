@@ -26,10 +26,11 @@ namespace TagGame
 		{
 			TagPlayer player = Local.Pawn as TagPlayer;
 			if ( player is null ) return;
-			label.Text = $"{(player.Team is not null ? player.Team.teamName : "Waiting for Players")}";
-			
 			TimeSpan timespan = TimeSpan.FromSeconds( (double)Tag.Instance?.currentRound?.TimeLeft );
 			string timeleft = $"{timespan.Minutes:D2}:{timespan.Seconds:D2}";
+
+			label.Text = $"{(player.CurrentTeam is not null ? player.CurrentTeam.teamName : Tag.Instance.currentRound is SummaryRound ? $"Round Complete - {timeleft}" : "Waiting for Players")}";
+			
 			label2.Text = $"{(Tag.Instance.currentRound is TagRound ? timeleft : "🕒")}";
 			label2.SetClass("active", Tag.Instance.currentRound is TagRound);
 		}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sandbox;
+using System;
 
 namespace TagGame
 {
@@ -6,7 +7,17 @@ namespace TagGame
 	{
 		public override string name => "Summary";
 
-		public override int length => 30;
+		public override int length => 10;
+
+		public override void Start()
+		{
+			if ( !Host.IsServer ) return;
+			foreach ( Client client in Client.All )
+			{
+				TagPlayer player = client.Pawn as TagPlayer;
+				player.CurrentTeam = null;
+			}
+		}
 
 		public override void OnTick()
 		{

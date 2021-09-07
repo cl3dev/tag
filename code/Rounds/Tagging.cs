@@ -22,26 +22,27 @@ namespace TagGame
 				Client tagger = players[Rand.Int( players.Count - 1 )];
 				players.Remove( tagger );
 				TagPlayer tagPawn = (TagPlayer)tagger.Pawn;
-				tagPawn.Team = Tag.Instance.TagTeam;
-				Log.Info( $"{tagger} -> {tagPawn.Team.teamName}" );
+				tagPawn.CurrentTeam = Tag.Instance.TagTeam;
 			}
 			foreach (Client player in players )
 			{
 				TagPlayer pawn = (TagPlayer)player.Pawn;
-				pawn.Team = Tag.Instance.RunTeam;
+				pawn.CurrentTeam = Tag.Instance.RunTeam;
 			}
 		}
 
 		public override void PlayerTouch( TagPlayer player , TagPlayer other )
 		{
+			if ( !Host.IsServer ) return;
 			float now = Time.Now;
-			if ( player.Team is not TaggerTeam || now < other.nextTouch ) return;
+			if ( player.CurrentTeam is not TaggerTeam || now < other.nextTouch ) return;
 			player.nextTouch = now + 10;
-			player.Team = Tag.Instance.RunTeam;
-			other.Team = Tag.Instance.TagTeam;
+			player.CurrentTeam = Tag.Instance.RunTeam;
+			other.CurrentTeam = Tag.Instance.TagTeam;
 		}
 		public override void OnTick()
 		{
+			if ( !Host.IsServer ) return;
 			if ( TimeLeft <= 0 )
 			{
 				Tag.Instance.SetRound( new SummaryRound() );

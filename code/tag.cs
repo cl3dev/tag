@@ -8,15 +8,12 @@ namespace TagGame
 	public partial class Tag : Sandbox.Game
 	{
 		public static Tag Instance => (Current as Tag);
-		[Net] public List<Team> teams { get; set; } = new List<Team>();
 		public TaggerTeam TagTeam = new TaggerTeam();
 		public RunnerTeam RunTeam = new RunnerTeam();
 		[Net] public Round currentRound { get; private set; }
 
 		public Tag()
 		{
-			teams.Add( TagTeam );
-			teams.Add( RunTeam );
 			if ( !IsServer ) return;
 			SetRound( new WaitRound() );
 			_ = Tick();
@@ -29,20 +26,16 @@ namespace TagGame
 			player.Respawn();
 			if ( Tag.Instance?.currentRound is TagRound )
 			{
-				player.Team = Tag.Instance?.RunTeam;
+				player.CurrentTeam = Tag.Instance?.RunTeam;
 			}
 			SetupNewPVS( player );
 			base.ClientJoined( cl );
 		}
 		public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
 		{
-			TagPlayer player = cl.Pawn as TagPlayer;
-			if(player.Team is TaggerTeam && Tag.Instance?.TagTeam.players.Count <= 0)
-			{
-				Tag.Instance.SetRound( new WaitRound() );
-			}
+			TagPlayer pawn = cl.Pawn as TagPlayer;
+			pawn?.CurrentTeam?.OnLeave( pawn );
 			base.ClientDisconnect( cl, reason );
-
 		}
 		public void SetRound( Round round )
 		{

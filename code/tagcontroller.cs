@@ -13,7 +13,7 @@ namespace TagGame
 			//base.GetWishSpeed()
 			float origin = 320f;
 			TagPlayer ply = Pawn as TagPlayer;
-			if (ply.Team is TaggerTeam && Input.Down(InputButton.Run) && Stamina > 0 && Pawn.Velocity.Length > 0 )
+			if (ply.CurrentTeam is TaggerTeam && Input.Down(InputButton.Run) && Stamina > 0 && Pawn.Velocity.Length > 0 )
 			{
 				Stamina = MathX.Approach(Stamina, 0, Time.Delta);
 				lastSprint = Time.Now;
@@ -29,7 +29,7 @@ namespace TagGame
 			base.Simulate();
 			if ( !Host.IsServer ) return;
 			TagPlayer ply = Pawn as TagPlayer;
-			if (Time.Now > lastSprint + 5 && Stamina < 1 && ply.Team is TaggerTeam )
+			if (Time.Now > lastSprint + 5 && Stamina < 1 && ply.CurrentTeam is TaggerTeam )
 			{
 				Stamina = MathX.Approach( Stamina, 1, (1f / 15f) * Time.Delta );
 			}

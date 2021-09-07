@@ -7,11 +7,15 @@ namespace TagGame
 	public partial class TagPlayer : Player
 	{
 		public float nextTouch = 0;
-		[Net, OnChangedCallback] public Team Team { get; set; }
+		private Team previousTeam;
+		[Net, OnChangedCallback] public Team CurrentTeam { get; set; }
 		[Net] public ScoreSys Score { get; set; } = new ScoreSys();
-		private void OnTeamChanged()
+		private void OnCurrentTeamChanged()
 		{
-			Team?.OnBecome( this );
+			previousTeam?.OnLeave( this );
+			CurrentTeam?.OnBecome( this );
+			previousTeam = CurrentTeam;
+			if ( CurrentTeam is null ) RenderColor = new Color( 1, 1, 1 );
 		}
 		public TagPlayer()
 		{
@@ -22,7 +26,7 @@ namespace TagGame
 			SetModel( "models/citizen/citizen.vmdl" );
 			Animator = new StandardPlayerAnimator();
 			Controller = new TagController();
-			Camera = new FirstPersonCamera();
+			Camera = new ThirdPersonCamera();
 			EnableAllCollisions = false;
 			EnableTouch = true;
 			EnableTouchPersists = true;
@@ -57,7 +61,7 @@ namespace TagGame
 			while ( true )
 			{
 				await GameTask.DelaySeconds( 5 );
-				if ( Tag.Instance?.currentRound is not TagRound || Team is not RunnerTeam ) return;
+				if ( Tag.Instance?.currentRound is not TagRound || CurrentTeam is not RunnerTeam ) return;
 				Score.Add(1);
 			}
 		}

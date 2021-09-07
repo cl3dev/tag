@@ -14,6 +14,7 @@ namespace TagGame
 		public override void Start()
 		{
 			if ( !Host.IsServer ) return;
+			ScoreSys.ResetScores();
 			int taggerNum = Math.Clamp( (int)Math.Ceiling( (decimal)(Client.All.Count / 3) ), 1, 4 );
 			List<Client> players = new List<Client>( Client.All );
 			for ( int i = 0; i < taggerNum; i++ )
@@ -35,7 +36,7 @@ namespace TagGame
 		{
 			float now = Time.Now;
 			if ( player.Team is not TaggerTeam || now < other.nextTouch ) return;
-			player.nextTouch = now + 1;
+			player.nextTouch = now + 10;
 			player.Team = Tag.Instance.RunTeam;
 			other.Team = Tag.Instance.TagTeam;
 		}
@@ -43,6 +44,7 @@ namespace TagGame
 		{
 			if ( TimeLeft <= 0 )
 			{
+				Tag.Instance.SetRound( new SummaryRound() );
 			}
 		}
 	}

@@ -6,6 +6,7 @@ using System;
 
 namespace TagGame
 {
+	// Containers \\
 	public partial class UI : Panel { }
 	public partial class CD : Panel { }
 	public partial class StamUI : Panel { }

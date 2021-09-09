@@ -4,3 +4,4 @@ config
 tools_*.bin
 code/obj
 code/tag-reloaded.csproj
+_bakeresourcecache

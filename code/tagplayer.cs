@@ -6,6 +6,7 @@ namespace TagGame
 {
 	public partial class TagPlayer : Player
 	{
+		public Clothing.Container clothing = new Clothing.Container();
 		public float nextTouch = 0;
 		private Team previousTeam;
 		[Net, OnChangedCallback] public Team CurrentTeam { get; set; }
@@ -21,6 +22,10 @@ namespace TagGame
 		{
 			_ = PointsTick();
 		}
+		public TagPlayer(Client cl) : this()
+		{
+			clothing.LoadFromClient( cl );
+		}
 		public override void Respawn()
 		{
 			SetModel( "models/citizen/citizen.vmdl" );
@@ -32,6 +37,7 @@ namespace TagGame
 			EnableTouchPersists = true;
 			EnableHideInFirstPerson = true;
 			EnableShadowInFirstPerson = true;
+			clothing.DressEntity( this );
 			base.Respawn();
 		}
 

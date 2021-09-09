@@ -21,7 +21,7 @@ namespace TagGame
 		}
 		public override void ClientJoined( Client cl )
 		{
-			TagPlayer player = new TagPlayer();
+			TagPlayer player = new TagPlayer(cl);
 			cl.Pawn = player;
 			player.Respawn();
 			if ( Tag.Instance?.currentRound is TagRound )

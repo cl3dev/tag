@@ -31,6 +31,17 @@ namespace TagGame
 			}
 		}
 
+		public override void End()
+		{
+			if ( !Host.IsServer ) return;
+			foreach (Client cl in Client.All )
+			{
+				TagPlayer player = cl.Pawn as TagPlayer;
+				if ( player is null ) continue;
+				player.Score.Overall += player.Score.Round;
+			}
+		}
+
 		public override void PlayerTouch( TagPlayer player , TagPlayer other )
 		{
 			if ( !Host.IsServer ) return;

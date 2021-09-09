@@ -6,7 +6,7 @@ namespace TagGame
 	public partial class ScoreSys : NetworkComponent
 	{
 		public static List<ScoreSys> Scores = new List<ScoreSys>();
-		private int Overall
+		[Net] public int Overall
 		{
 			get {
 				return 1;
@@ -24,7 +24,7 @@ namespace TagGame
 		public void Add(int amt)
 		{
 			Round += amt;
-			Overall += amt;
+			//Overall += amt;
 		}
 		public static void ResetScores()
 		{
